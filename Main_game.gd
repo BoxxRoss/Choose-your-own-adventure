@@ -21,7 +21,6 @@ var opened = false
 func _ready():
 	reset()
 	
-	
 func reset():
 	let_text_flow = false
 	checker = false
@@ -83,25 +82,19 @@ func _on_option_1_pressed():
 		option_one_text.text = "Get in the car"
 		option_two_text.text = "Get in the car"		
 		
-	if past_room == "heading back":
+	if past_room == "heading back" or past_room == "nap time":
 		current_room = "leaving"
-		problem_text.text = "Malcom needs not bother himself with this he feels. there's so little time, he must go to the Police HQ to figure out who killed the old man. he waves the cop off and gets in his car, driving off before the officer can get another word out. Malcom arives at HQ to find the suspects waiting to be interogated"
+		problem_text.text = "Malcom needs not bother himself with this. there's so little time, he must go to the Police HQ to figure out who killed the old man. he waves the cop off and gets in his car, driving off before the officer can get another word out. Malcom arives at HQ to find the suspects waiting to be interogated"
 		option_one_text.text = "investigate the first suspect"
 		option_two_text.text = "investigate the second suspect"
-			
-	if past_room == "nap time":
-		current_room = "leaving"
-		problem_text.text = "Malcom needs not bother himself with this he feels. there's so little time, he must go to the Police HQ to figure out who killed the old man. he waves the cop off and gets in his car, driving off before the officer can get another word out. Malcom arives at HQ to find the suspects waiting to be interogated"
-		option_one_text.text = "investigate the first suspect"
-		option_two_text.text = "investigate the second suspect"
-		
+
 	if past_room == "list" or past_room == "call it in":
 		current_room = "suspects"
 		problem_text.text = "after ariving at the police HQ, Malcom walks to the interigation room, to have a talk with the suspects. 2 of suspects have been already exscused, a time of death was identified and alibies were provided \n the remaining two suspects are Jenkins, a felow detective, and Ralph, a chronic drunk"
 		option_one_text.text = "Interogate Jenkins First"
 		option_two_text.text = "Interogate Ralph First"
 		
-	if past_room == "suspects" or past_room == "leaving" or past_room == "heading back":
+	if past_room == "suspects" or past_room == "leaving" or past_room == "nap time early":
 		current_room = "Jenkins"
 		problem_text.text = "As Malcom enters the room to sit down, Jenkins is waiting, a grizzled vet detained. \n Malcom: Suprised to see you here Jenkins, i didn't know you drank \n Jenkins: Same, I Drove away from that old mans body, couldn't have hit em, dont know why you suspect me honestly. you looking for a promotion rookie?"
 		option_one_text.text = "Accuse Jenkins "
@@ -113,7 +106,13 @@ func _on_option_1_pressed():
 		option_one_text.text = "???"
 		option_two_text.text = "???"
 		
-	if past_room == "Accuse Jenkins":
+	if past_room == "Ralph":
+		current_room = "Accuse Ralph"
+		problem_text.text = "Malcom slams his fist on the table \n Malcom: you did it! i know you did!, why dont you confess and make this easier for all of us. \n Ralph: Wait, what did i doo? can you saay that agaiiinn? You were so muuch nicer yesterdaaay y'now. Malcom stands and walks out of the interogation room, sweat covering his hands"
+		option_one_text.text = "???"
+		option_two_text.text = "???"
+		
+	if past_room == "Accuse Jenkins" or past_room == "Accuse Ralph":
 		current_room = "decision"
 		problem_text.text = "The File was intresting, the members of the jury had to make a descision on who the murder was, they were tied, and it came down to one person to chose, Bennet had never felt such preassure, but he thought, and finally gave his answer, the Judge returned to the stand where the suspects waited, \n Judge: the members of this jury have come to a descision, the killer of the old man is"
 		yield(get_tree().create_timer(1.000001), "timeout")
@@ -165,7 +164,33 @@ func _on_option_2_pressed():
 		problem_text.text = "Malcom needs not bother himself with this he feels. there's so little time, he must go to the Police HQ to figure out who killed the old man. he waves the cop off and gets in his car, driving off before the officer can get another word out. Malcom arives at HQ to find the suspects waiting to be interogated"
 		option_one_text.text = "investigate the first suspect"
 		option_two_text.text = "investigate the second suspect"
-
+	
+	if past_room == "call it in":
+		current_room = "nap time early"
+		problem_text.text = "Malcom slaps himself, he needs to focus, dosn't matter how little sleep he got, he drives to HQ \n Malcom walks into the interigation room, to have a talk with the suspects. 2 of suspects have been already exscused, a time of death was identified and alibies were provided \n the remaining two suspects are Jenkins, a felow detective, and Ralph, a chronic drunk"
+		option_one_text.text = "Interogate Jenkins First"
+		option_two_text.text = "Interogate Ralph First"
+		
+		
+	if past_room == "Suspects" or past_room == "Leaving" or past_room == "nap time early" or past_room == "Jenkins":
+		current_room = "Ralph"
+		problem_text.text = "As Malcom opens the door, the Drunk everyone's met, Ralph, greets him \n Ralph:Hey maannn, what do you whannt? \n he was somehow sober, his speech was slurred from so much alcohol intake.\n Ralph: Wait... you kinda look famille- he fell asleep somehow at the table, Malcom shook him awake, but he seemed to just want to sleep once more."
+		option_one_text.text = "Accuse Ralph"
+		option_two_text.text = "Interogate Jenkins"
+		
+	if past_room == "Ralph":
+		current_room = "Jenkins"
+		problem_text.text = "As Malcom enters the room to sit down, Jenkins is waiting, a grizzled vet detained. \n Malcom: Suprised to see you here Jenkins, i didn't know you drank \n Jenkins: Same, I Drove away from that old mans body, couldn't have hit em, dont know why you suspect me honestly. you looking for a promotion rookie?"
+		option_one_text.text = "Accuse Jenkins "
+		option_two_text.text = "Interogate Ralph"	
+		
+	if past_room == "Accuse Jenkins" or past_room == "Accuse Ralph":
+		current_room = "decision"
+		problem_text.text = "The File was intresting, the members of the jury had to make a descision on who the murder was, they were tied, and it came down to one person to chose, Bennet had never felt such preassure, but he thought, and finally gave his answer, the Judge returned to the stand where the suspects waited, \n Judge: the members of this jury have come to a descision, the killer of the old man is"
+		yield(get_tree().create_timer(1.000001), "timeout")
+		let_text_flow = false
+		checker = true
+		
 	if past_room == "start":
 		current_room = "footage"
 
