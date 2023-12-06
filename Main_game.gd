@@ -9,25 +9,29 @@ onready var button_one = get_node("option_1")
 onready var button_two = get_node("option_2")
 
 onready var guilt = get_node("enter_guilty")
-
+onready var part = get_node("Particles2D")
 onready var notes = get_node("open_notes")
+
+var amount = 0.004
 
 var current_room = "start"
 var past_room = null
 var checker = false
 var let_text_flow = false
 var opened = false
+var tr = false
 
 func _ready():
+	button_two.visible = false
 	reset()
 	
 func reset():
 	let_text_flow = false
 	checker = false
-	problem_text.visible_characters = 0
+	problem_text.percent_visible = 0.0
 	yield(get_tree().create_timer(1.0), "timeout")
 	let_text_flow = true
-	
+	amount = 0.004
 func _physics_process(delta):
 	if opened == true:
 		notes.rect_position = lerp(notes.rect_position, Vector2(392,-24), 0.2)
@@ -35,16 +39,16 @@ func _physics_process(delta):
 		notes.rect_position = lerp(notes.rect_position, Vector2(936,-24), 0.2)
 	
 	if checker == true:
-		problem_text.visible_characters += 1
+		problem_text.percent_visible += amount
 		
 		guilt.rect_position = lerp(guilt.rect_position, Vector2(320,512),0.2)
 	elif checker == false:
 		guilt.rect_position = lerp(guilt.rect_position, Vector2(320,680),0.2)
 	
 	if let_text_flow == true:
-		problem_text.visible_characters += 1
-		button_one.rect_position = lerp(button_one.rect_position, Vector2(128,384),0.2)
-		button_two.rect_position = lerp(button_two.rect_position, Vector2(576,384),0.2)
+		problem_text.percent_visible += amount
+		button_one.rect_position = lerp(button_one.rect_position, Vector2(128,430),0.2)
+		button_two.rect_position = lerp(button_two.rect_position, Vector2(576,430),0.2)
 	else:
 		button_one.rect_position = lerp(button_one.rect_position, Vector2(128,704),0.2)
 		button_two.rect_position = lerp(button_two.rect_position, Vector2(576,704),0.2)
@@ -56,6 +60,12 @@ func _on_quit_pressed():
 
 func _on_option_1_pressed():
 	reset()
+	if tr == false:
+		yield(get_tree().create_timer(1), "timeout")
+		button_two.visible = true
+		tr = true
+		
+		
 	past_room = current_room
 	#start of the game
 	if past_room == "start":
@@ -119,8 +129,11 @@ func _on_option_1_pressed():
 		let_text_flow = false
 		checker = true
 		
-		
-		
+	if past_room == "view":
+		current_room = "watch"
+		problem_text.text = "oppsy"
+		option_one_text.text = "yip"
+		option_two_text.text = "nip"
 		
 	if past_room == "malcom ending" or past_room == "ralph ending" or past_room == "jenkins ending" or past_room == "worst ending":
 		current_room = "start"
@@ -140,7 +153,8 @@ func _on_option_1_pressed():
 func _on_option_2_pressed():
 	reset()
 	past_room = current_room
-	
+
+		
 	if past_room == "Investigate":
 		current_room = "look for weapon"
 		problem_text.text = "Malcom scopes the surrounding area, checking behind the dumpster, underneath the trashcan, any where and everywhere in that alleyway \n just as he thought it was a lost cause, he finds a bloodied bat in the last garbage bag he checked"
@@ -161,20 +175,25 @@ func _on_option_2_pressed():
 
 	if past_room == "nap time":
 		current_room = "leaving"
-		problem_text.text = "Malcom needs not bother himself with this he feels. there's so little time, he must go to the Police HQ to figure out who killed the old man. he waves the cop off and gets in his car, driving off before the officer can get another word out. Malcom arives at HQ to find the suspects waiting to be interogated"
+		problem_text.text = "Malcom needs not bother himself with this.there's so little time, he must go to the Police HQ to figure out who killed the old man. he waves the cop off and gets in his car, driving off before the officer can get another word out. Malcom arives at HQ to find the suspects waiting to be interogated"
 		option_one_text.text = "investigate the first suspect"
 		option_two_text.text = "investigate the second suspect"
 	
 	if past_room == "call it in":
 		current_room = "nap time early"
-		problem_text.text = "Malcom slaps himself, he needs to focus, dosn't matter how little sleep he got, he drives to HQ \n Malcom walks into the interigation room, to have a talk with the suspects. 2 of suspects have been already exscused, a time of death was identified and alibies were provided \n the remaining two suspects are Jenkins, a felow detective, and Ralph, a chronic drunk"
+		problem_text.text = "Malcom slaps himself, he needs to focus, he drives to HQ. Malcom walks into the interogation room, to have a talk with the suspects. 2 of suspects have been already exscused, a time of death was identified and alibies were provided \n the remaining two suspects are Jenkins, a felow detective, and Ralph, a chronic drunk"
 		option_one_text.text = "Interogate Jenkins First"
 		option_two_text.text = "Interogate Ralph First"
 		
+	if past_room == "list":
+		current_room = "nap time early"
+		problem_text.text = "Malcom slaps himself, he needs to focus, he drives to HQ. Malcom walks into the interogation room, to have a talk with the suspects. 2 of suspects have been already exscused, a time of death was identified and alibies were provided \n the remaining two suspects are Jenkins, a felow detective, and Ralph, a chronic drunk"
+		option_one_text.text = "Interogate Jenkins First"
+		option_two_text.text = "Interogate Ralph First"
 		
 	if past_room == "Suspects" or past_room == "Leaving" or past_room == "nap time early" or past_room == "Jenkins":
 		current_room = "Ralph"
-		problem_text.text = "As Malcom opens the door, the Drunk everyone's met, Ralph, greets him \n Ralph:Hey maannn, what do you whannt? \n he was somehow sober, his speech was slurred from so much alcohol intake.\n Ralph: Wait... you kinda look famille- he fell asleep somehow at the table, Malcom shook him awake, but he seemed to just want to sleep once more."
+		problem_text.text = "As Malcom opens the door, the Drunk everyone's met, Ralph, greets him \n Ralph:Hey dude, what do you whant? \n he was somehow sober, his speech was slurred from so much alcohol intake.\n Ralph: Wait... you kinda look famille- he stopped talking, staring at nothing, Malcom shook him, but he seemed unintrested in talking"
 		option_one_text.text = "Accuse Ralph"
 		option_two_text.text = "Interogate Jenkins"
 		
@@ -191,8 +210,6 @@ func _on_option_2_pressed():
 		let_text_flow = false
 		checker = true
 		
-	if past_room == "start":
-		current_room = "footage"
 
 
 
