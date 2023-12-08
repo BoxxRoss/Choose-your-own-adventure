@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=2]
+[gd_scene load_steps=22 format=2]
 
 [ext_resource path="res://Main_game.gd" type="Script" id=1]
 [ext_resource path="res://icon.png" type="Texture" id=2]
@@ -10,6 +10,8 @@
 [ext_resource path="res://buttons/fd3.png" type="Texture" id=8]
 [ext_resource path="res://buttons/fd3_grey.png" type="Texture" id=9]
 [ext_resource path="res://buttons/fd3_black.png" type="Texture" id=10]
+[ext_resource path="res://explosion.wav" type="AudioStream" id=11]
+[ext_resource path="res://untitled.wav" type="AudioStream" id=12]
 
 [sub_resource type="Gradient" id=3]
 colors = PoolColorArray( 1, 0.160784, 0, 0.784314, 1, 0.0980392, 0.247059, 0 )
@@ -232,8 +234,17 @@ drag_and_drop_selection_enabled = false
 wrap_enabled = true
 caret_blink = true
 
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 11 )
+volume_db = -20.0
+
+[node name="music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource( 12 )
+autoplay = true
+
 [connection signal="pressed" from="option_1" to="." method="_on_option_1_pressed"]
 [connection signal="pressed" from="option_2" to="." method="_on_option_2_pressed"]
 [connection signal="pressed" from="quit" to="." method="_on_quit_pressed"]
 [connection signal="text_entered" from="enter_guilty" to="." method="_on_LineEdit_text_entered"]
 [connection signal="pressed" from="open_notes" to="." method="_on_open_notes_pressed"]
+[connection signal="finished" from="music" to="." method="_on_music_finished"]

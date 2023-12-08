@@ -2,6 +2,9 @@ extends Node2D
 
 onready var problem_text = get_node("Label")
 
+onready var click = get_node("AudioStreamPlayer")
+onready var music = get_node("music")
+
 onready var option_one_text = get_node("option_1/text_for_option_1")
 onready var option_two_text = get_node("option_2/text_for_option_2")
 
@@ -60,6 +63,7 @@ func _on_quit_pressed():
 
 func _on_option_1_pressed():
 	reset()
+	click.playing = true
 	if tr == false:
 		yield(get_tree().create_timer(1), "timeout")
 		button_two.visible = true
@@ -152,6 +156,7 @@ func _on_option_1_pressed():
 		
 func _on_option_2_pressed():
 	reset()
+	click.playing = true
 	past_room = current_room
 
 		
@@ -214,17 +219,16 @@ func _on_option_2_pressed():
 
 
 func _on_LineEdit_text_entered(new_text):
-	print(new_text)
+	click.playing = true
+	
 	if new_text == "malcom":
 		reset()
-		print("its malcom")
 		current_room = "malcom ending"
-		problem_text.text = "It was a suprise, the detecive on the case being the murder? \n but it all lined up, a pounding headache, ommision of the full suspect list, the bloodied bat, a similar model that he was known to own. \n wether it was a drunken fury or simple malice he had killed the old man, and couldent even remeber it. \n Ending 4 out of 4"
+		problem_text.text = "It was a suprise, the detecive on the case being the murder? \n but it all lined up, a pounding headache, ommision of the full suspect list, the bloodied bat, a similar model that he was known to own. \n wether it was a drunken fury or simple malice he had killed the old man \n and couldent even remeber it. \n Ending 4 out of 4"
 		option_one_text.text = "Try Again"
 		option_two_text.text = "quit"
 	elif new_text == "ralph":
 		reset()
-		print("its ralph")
 		current_room = "ralph ending"
 		problem_text.text = "Ralph the Drunk was convicted,few cared for him and the news brushed it off as a simple murder case, his lack of an alibi and his profusal to cooperate left him as the only sensible suspect remaining, but was he guilty? no, he was not, the real killer is still out there, who could he be? \n Ending 2 out of 4"
 		option_one_text.text = "Try Again"
@@ -244,9 +248,12 @@ func _on_LineEdit_text_entered(new_text):
 
 
 func _on_open_notes_pressed():
-	print(opened)
+	click.playing = true
 	if opened == false:
 		opened = true
 	else:
 		opened = false
 		
+
+func _on_music_finished():
+	music.playing = true
