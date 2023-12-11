@@ -74,27 +74,29 @@ func _on_option_1_pressed():
 	#start of the game
 	if past_room == "start":
 		current_room = "Investigate"
-		problem_text.text = "blood trailed from the alleyway into where the dead man lay \n his body had noticable marks on it, scars? \n maybe hit by a car, or maybe beaten with a bat \n Malcom had loved to play baseball \n the building next to the alleyway was a bar"
+		problem_text.text = "blood trailed from the alleyway into where the dead man lay \n his body had noticable marks on it \n maybe hit by a car, or maybe beaten with a bat \n Malcom had thought of his own bat, it had gone missing, the building next to the alleyway was a bar"
 		option_one_text.text = "obtain a list of last nights patrons"
 		option_two_text.text = "Look for a murder weapon"
+		yield(get_tree().create_timer(1), "timeout")
+		button_two.visible = true
 
 	if past_room == "look for weapon":
 		current_room = "call it in"
-		problem_text.text = "Malcom walks back to his police car and phones it to the HQ, they ask him to investigate local activies in the area. after leaving the call, malcom checks online, finding that the bar next door had an event going the night before. he sends 4 attendees/employees to the HQ as suspects."
+		problem_text.text = "Malcom walks back to his police car and phones in to HQ, they ask him to investigate local activies in the area. after leaving the call, malcom checks online, finding that the bar next door had an event going the night before. he sends 4 attendees/employees to HQ as suspects."
 		option_one_text.text = "investigate the suspects at HQ"
 		option_two_text.text = "Drive home and take a nap"
 	
 	if past_room == "Investigate":
 		current_room = "list"
-		problem_text.text = "Malcom walks back to his police car \n he looks up if there was an event yesterday at the bar. there was a small one, with only 3 attendees, 5 counting employees. he sends the 4 suspects to the police office. \n malcom rubs his head, he slept poorly, the ambulances will arive soon"
+		problem_text.text = "Malcom walks back to his police car \n he looks up if there was an event yesterday at the bar. there was a small one, with only 3 attendees, 5 counting employees. he sends the 4 suspects to the police office. \n malcom rubs his head, the ambulances will arive soon"
 		option_one_text.text = "investigate the suspects at HQ"
 		option_two_text.text = "Drive home and take a nap"
 		
 	if past_room == "wait for amb":
 		current_room = "heading back"
 		problem_text.text = "as Malcom heads back to his car, an officer aproaches him with a look of worry \n Officer: uhm, sir, you should know that there was an event yesterday at the bar next door that went out late, i just talked with the owner and he said you were in attendance? Malcom's headache worsened"
-		option_one_text.text = "Get in the car"
-		option_two_text.text = "Get in the car"		
+		option_one_text.text = "Get in the car, not worth his time"
+		option_two_text.text = "Get in the car, they could talk later"		
 		
 	if past_room == "heading back" or past_room == "nap time":
 		current_room = "leaving"
@@ -141,7 +143,8 @@ func _on_option_1_pressed():
 		
 	if past_room == "malcom ending" or past_room == "ralph ending" or past_room == "jenkins ending" or past_room == "worst ending":
 		current_room = "start"
-		problem_text.text = "Malcom had seldom seen a scene so puzzling \n yet here was one on a silver platter \n an old man, poor, off the gird \n no one even knew his name, but he was killed \n and the killer must be found, Malcom promised.\n and so he must figure out where to start"
+		button_two.visible = false
+		problem_text.text = "Malcom had seldom seen a scene so puzzling \n yet here was one on a silver platter \n a dead man, poor, off the gird \n no one even knew his name, but he was killed \n and the killer must be found, Malcom promised.\n and so he must figure out where to start"
 		option_one_text.text = "Investigate the body"
 		option_two_text.text = "Obtain the footage of his death"
 
@@ -196,7 +199,7 @@ func _on_option_2_pressed():
 		option_one_text.text = "Interogate Jenkins First"
 		option_two_text.text = "Interogate Ralph First"
 		
-	if past_room == "Suspects" or past_room == "Leaving" or past_room == "nap time early" or past_room == "Jenkins":
+	if past_room == "suspects" or past_room == "Leaving" or past_room == "nap time early" or past_room == "Jenkins":
 		current_room = "Ralph"
 		problem_text.text = "As Malcom opens the door, the Drunk everyone's met, Ralph, greets him \n Ralph:Hey dude, what do you whant? \n he was somehow sober, his speech was slurred from so much alcohol intake.\n Ralph: Wait... you kinda look famille- he stopped talking, staring at nothing, Malcom shook him, but he seemed unintrested in talking"
 		option_one_text.text = "Accuse Ralph"
@@ -221,30 +224,34 @@ func _on_option_2_pressed():
 func _on_LineEdit_text_entered(new_text):
 	click.playing = true
 	
-	if new_text == "malcom":
+	if new_text == "malcom" or new_text == "Malcom":
 		reset()
 		current_room = "malcom ending"
 		problem_text.text = "It was a suprise, the detecive on the case being the murder? \n but it all lined up, a pounding headache, ommision of the full suspect list, the bloodied bat, a similar model that he was known to own. \n wether it was a drunken fury or simple malice he had killed the old man \n and couldent even remeber it. \n Ending 4 out of 4"
 		option_one_text.text = "Try Again"
 		option_two_text.text = "quit"
-	elif new_text == "ralph":
+		
+	elif new_text == "ralph" or new_text == "Ralph":
 		reset()
 		current_room = "ralph ending"
 		problem_text.text = "Ralph the Drunk was convicted,few cared for him and the news brushed it off as a simple murder case, his lack of an alibi and his profusal to cooperate left him as the only sensible suspect remaining, but was he guilty? no, he was not, the real killer is still out there, who could he be? \n Ending 2 out of 4"
 		option_one_text.text = "Try Again"
 		option_two_text.text = "quit"
-	elif new_text == "jenkins":
+		
+	elif new_text == "jenkins" or new_text == "Jenkins":
 		reset()
 		current_room = "jenkins ending"
 		problem_text.text = "Jenkins was respected, his conviction was a suprise to everyone in the county, he had been a beloved community member for so long, no one knew how he could kill the old man, and jenkins fought hard agaisnt what he saw as injustice, but was he guilty? no, he was not, the real killer is still out there, who could he be? \n Ending 3 out of 4"
 		option_one_text.text = "Try Again"
 		option_two_text.text = "quit"
+		
 	else:
 		reset()
 		current_room = "worst ending"
 		problem_text.text = "The Jury was indicisive and could not come to a clean conclusion, the trial was thus pushed back for months, after nearly a year of a dragged out trial, Ralph was convicted guilty and locked up, but was he guilty? no, he was not, the real killer is still out there, who could he be? \n Ending 1 out of 4"
 		option_one_text.text = "Try Again"
 		option_two_text.text = "quit"
+		
 
 
 func _on_open_notes_pressed():

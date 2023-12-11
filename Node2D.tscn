@@ -91,7 +91,7 @@ custom_constants/shadow_offset_y = 1
 custom_fonts/font = SubResource( 1 )
 text = "Malcom had seldom seen a scene so puzzling
 yet here was one on a silver platter
-an old man, poor, off the gird
+a dead man, poor, off the gird
 no one even knew his name, but he was killed
 and the killer must be found, Malcom promised.
 and so he must figure out where to start"
@@ -236,7 +236,7 @@ caret_blink = true
 
 [node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 11 )
-volume_db = -20.0
+volume_db = -25.0
 
 [node name="music" type="AudioStreamPlayer" parent="."]
 stream = ExtResource( 12 )
